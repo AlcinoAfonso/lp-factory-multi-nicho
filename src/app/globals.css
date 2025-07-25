@@ -1,0 +1,100 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Variáveis CSS globais */
+    --largura-pagina: clamp(20rem, 100vw, 75rem);
+    --fonte-principal: var(--font-inter), Inter, sans-serif;
+    --tamanho-base: 1rem;
+    --padding-lateral-mobile: 1rem;
+    --padding-lateral-md: 1.5rem;
+    
+    /* \u2705 CORES COM MELHOR CONTRASTE */
+    --text-gray-500: #6b7280; /* Substituir por #64748b para melhor contraste */
+    --text-gray-600: #4b5563; /* Substituir por #475569 para melhor contraste */
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply text-gray-900 antialiased;
+    font-family: var(--fonte-principal);
+    font-size: var(--tamanho-base);
+  }
+}
+
+@layer components {
+  .container-lp {
+    @apply mx-auto w-full;
+    max-width: var(--largura-pagina);
+    padding-left: var(--padding-lateral-mobile);
+    padding-right: var(--padding-lateral-mobile);
+  }
+
+  @screen md {
+    .container-lp {
+      padding-left: var(--padding-lateral-md);
+      padding-right: var(--padding-lateral-md);
+    }
+  }
+}
+
+@layer utilities {
+  /* Previne overflow horizontal em mobile */
+  .container-lp {
+    @apply overflow-x-hidden;
+  }
+
+  /* Remover scrollbar do carrossel */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Estilos para o iframe responsivo */
+  .aspect-video {
+    position: relative;
+    padding-top: 56.25%;
+  }
+
+  .aspect-video iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Classes customizadas para tipografia */
+  .font-inter {
+    font-family: var(--fonte-principal);
+  }
+
+  /* \u2705 MELHORIAS DE CONTRASTE */
+  .text-gray-500 {
+    color: #64748b; /* Melhor contraste que #6b7280 */
+  }
+  
+  .text-gray-600 {
+    color: #475569; /* Melhor contraste que #4b5563 */
+  }
+  
+  /* Para textos pequenos, garantir contraste m\u00EDnimo 4.5:1 */
+  .text-xs,
+  .text-sm {
+    @apply text-gray-700; /* For\u00E7a cor mais escura em textos pequenos */
+  }
+  
+  /* Bot\u00F5es com melhor contraste */
+  .btn-outline {
+    @apply border-2; /* Borda mais grossa para melhor visibilidade */
+  }
+}
