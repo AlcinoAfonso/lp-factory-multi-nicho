@@ -1,11 +1,19 @@
-import { cn } from '@/lib/utils';
-import { CTAFinalData } from '@/types/lp-config';
-import { Button } from '@/components/ui/Button';
-import { sectionDefaults } from '@/config/sections';
-import { typography } from '@/config/typography';
+import React from 'react';
 
 interface CTAFinalProps {
-  data: CTAFinalData;
+  data: {
+    id: string;
+    type: 'ctaFinal';
+    backgroundColor?: string;
+    textColor?: string;
+    title: string;
+    subtitle?: string;
+    button: {
+      text: string;
+      href: string;
+      variant?: string;
+    };
+  };
 }
 
 function CTAFinal({ data }: CTAFinalProps) {
@@ -15,22 +23,31 @@ function CTAFinal({ data }: CTAFinalProps) {
   } as React.CSSProperties;
 
   return (
-    <section id={data.id} className={sectionDefaults.ctaFinal.classes} style={sectionStyle}>
-      <div className={sectionDefaults.ctaFinal.container}>
-        <div className={sectionDefaults.ctaFinal.contentContainer}>
+    <section id={data.id} className="py-16 md:py-24" style={sectionStyle}>
+      <div className="container mx-auto px-4">
+        <div className="max-w-2xl mx-auto text-center space-y-6">
           <h2
-            className={cn(typography.heroTitle.classes)}
+            className="text-4xl font-bold"
             style={{ color: data.textColor }}
           >
             {data.title}
           </h2>
-          <h3
-            className={cn(typography.heroDescription.classes, 'max-w-2xl mx-auto')}
-            style={{ color: data.textColor }}
+          {data.subtitle && (
+            <h3
+              className="text-xl font-semibold max-w-2xl mx-auto"
+              style={{ color: data.textColor }}
+            >
+              {data.subtitle}
+            </h3>
+          )}
+          <a
+            href={data.button.href}
+            className="inline-block px-8 py-4 rounded-2xl font-semibold transition-all duration-200 text-center bg-orange-500 text-white hover:bg-orange-600 shadow-lg hover:shadow-xl"
+            target={data.button.href.startsWith('http') ? '_blank' : undefined}
+            rel={data.button.href.startsWith('http') ? 'noopener noreferrer' : undefined}
           >
-            {data.subtitle}
-          </h3>
-          <Button {...data.button} />
+            {data.button.text}
+          </a>
         </div>
       </div>
     </section>

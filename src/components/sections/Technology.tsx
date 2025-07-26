@@ -1,12 +1,27 @@
-import { cn } from '@/lib/utils';
-import { TechnologyData } from '@/types/lp-config';
-import { Button } from '@/components/ui/Button';
-import { SmartImage } from '@/components/ui/SmartImage';
-import { sectionDefaults } from '@/config/sections';
-import { typography } from '@/config/typography';
+import React from 'react';
 
 interface TechnologyProps {
-  data: TechnologyData;
+  data: {
+    id: string;
+    type: 'technology';
+    backgroundColor?: string;
+    textColor?: string;
+    title: string;
+    items: Array<{
+      icon: string;
+      title: string;
+      description: string;
+    }>;
+    image: {
+      src: string;
+      alt: string;
+    };
+    button: {
+      text: string;
+      href: string;
+      variant?: string;
+    };
+  };
 }
 
 function Technology({ data }: TechnologyProps) {
@@ -15,35 +30,32 @@ function Technology({ data }: TechnologyProps) {
     ...(data.textColor && { color: data.textColor }),
   } as React.CSSProperties;
 
-
   return (
-    <section id={data.id} className={sectionDefaults.technology.classes} style={sectionStyle}>
-      <div className={sectionDefaults.technology.container}>
-        <div className={sectionDefaults.technology.titleContainer}>
+    <section id={data.id} className="py-12 md:py-16" style={sectionStyle}>
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-12">
           <h2
-            className={cn(typography.sectionTitle.classes)}
+            className="text-3xl font-bold mb-4"
             style={{ color: data.textColor }}
           >
             {data.title}
           </h2>
         </div>
 
-        <div className={sectionDefaults.technology.contentLayout}>
-          <div className={sectionDefaults.technology.itemsContainer}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center mb-12">
+          <div className="space-y-8">
             {data.items.map((item, index) => (
-              <div key={index} className={sectionDefaults.technology.item}>
-                <span className={sectionDefaults.technology.iconContainer}>
-                  {item.icon}
-                </span>
-                <div className={sectionDefaults.technology.textContainer}>
+              <div key={index} className="flex gap-4 items-start">
+                <span className="text-3xl flex-shrink-0">{item.icon}</span>
+                <div>
                   <h3
-                    className={cn(typography.sectionSubtitle.classes, 'mb-2')}
+                    className="text-xl font-semibold mb-2"
                     style={{ color: data.textColor }}
                   >
                     {item.title}
                   </h3>
                   <p
-                    className={cn(typography.bodyText.classes, 'mb-0')}
+                    className="text-base"
                     style={{ color: data.textColor }}
                   >
                     {item.description}
@@ -53,21 +65,24 @@ function Technology({ data }: TechnologyProps) {
             ))}
           </div>
 
-          <div className={sectionDefaults.technology.imageContainer}>
-            <div className="relative w-full max-w-md mx-auto aspect-square rounded-2xl overflow-hidden shadow-xl">
-              <SmartImage
-                src={data.image.src}
-                alt={data.image.alt}
-                fill
-                className="object-cover"
-                sizes="(max-width: 768px) 100vw, 400px"
-              />
-            </div>
+          <div className="relative w-full max-w-md mx-auto aspect-square rounded-2xl overflow-hidden shadow-xl">
+            <img
+              src={data.image.src}
+              alt={data.image.alt}
+              className="w-full h-full object-cover"
+            />
           </div>
         </div>
 
-        <div className={sectionDefaults.technology.buttonContainer}>
-          <Button {...data.button} />
+        <div className="text-center">
+          <a
+            href={data.button.href}
+            className="inline-block px-8 py-4 rounded-2xl font-semibold transition-all duration-200 text-center bg-orange-500 text-white hover:bg-orange-600 shadow-lg hover:shadow-xl"
+            target={data.button.href.startsWith('http') ? '_blank' : undefined}
+            rel={data.button.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+          >
+            {data.button.text}
+          </a>
         </div>
       </div>
     </section>

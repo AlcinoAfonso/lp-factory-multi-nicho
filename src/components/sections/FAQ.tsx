@@ -1,14 +1,19 @@
 'use client';
 
 import { useState } from 'react';
-import { cn } from '@/lib/utils';
-import { FAQData } from '@/types/lp-config';
-import { sectionDefaults } from '@/config/sections';
-import { typography } from '@/config/typography';
-import { ChevronDown } from 'lucide-react';
 
 interface FAQProps {
-  data: FAQData;
+  data: {
+    id: string;
+    type: 'faq';
+    backgroundColor?: string;
+    textColor?: string;
+    title: string;
+    items: Array<{
+      question: string;
+      answer: string;
+    }>;
+  };
 }
 
 function FAQ({ data }: FAQProps) {
@@ -24,39 +29,36 @@ function FAQ({ data }: FAQProps) {
   };
 
   return (
-    <section id={data.id} className={sectionDefaults.faq.classes} style={sectionStyle}>
-      <div className={sectionDefaults.faq.container}>
-        <div className={sectionDefaults.faq.titleContainer}>
+    <section id={data.id} className="py-12 md:py-16" style={sectionStyle}>
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-12">
           <h2
-            className={cn(typography.sectionTitle.classes)}
+            className="text-3xl font-bold mb-4"
             style={{ color: data.textColor }}
           >
             {data.title}
           </h2>
         </div>
 
-        <div className={sectionDefaults.faq.accordionContainer}>
+        <div className="max-w-3xl mx-auto space-y-4">
           {data.items.map((item, index) => (
-            <div key={index} className={sectionDefaults.faq.accordionItem}>
+            <div key={index} className="border border-gray-200 rounded-lg overflow-hidden">
               <button
                 onClick={() => toggleAccordion(index)}
-                className={sectionDefaults.faq.accordionTrigger}
+                className="w-full text-left p-6 flex justify-between items-center hover:bg-gray-50 transition-colors"
                 style={{ color: data.textColor }}
               >
-                <span className={cn(typography.sectionSubtitle.classes, 'mb-0')}>
+                <span className="text-lg font-semibold mb-0">
                   {item.question}
                 </span>
-                <ChevronDown
-                  className={cn(
-                    'w-5 h-5 transition-transform',
-                    openIndex === index && 'rotate-180'
-                  )}
-                />
+                <span className={`transform transition-transform ${openIndex === index ? 'rotate-180' : ''}`}>
+                  ▼
+                </span>
               </button>
               {openIndex === index && (
-                <div className={sectionDefaults.faq.accordionContent}>
+                <div className="px-6 pb-6">
                   <p
-                    className={cn(typography.bodyText.classes, 'mb-0')}
+                    className="text-base mb-0"
                     style={{ color: data.textColor }}
                   >
                     {item.answer}

@@ -1,8 +1,30 @@
 import React from 'react';
-import { ContactData } from '@/types/lp-config';
 
 interface ContactProps {
-  data: ContactData;
+  data: {
+    id: string;
+    type: 'contact';
+    backgroundColor?: string;
+    textColor?: string;
+    title: string;
+    subtitle?: string;
+    formAction: string;
+    fields: Array<{
+      type: 'text' | 'email' | 'tel' | 'textarea';
+      name: string;
+      label: string;
+      placeholder?: string;
+      required?: boolean;
+    }>;
+    submitButton: {
+      text: string;
+    };
+    info?: Array<{
+      icon: string;
+      label: string;
+      value: string;
+    }>;
+  };
 }
 
 const Contact: React.FC<ContactProps> = ({ data }) => {
@@ -29,7 +51,6 @@ const Contact: React.FC<ContactProps> = ({ data }) => {
         )}
         
         <div className="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
-          {/* Formulário */}
           <div className="bg-white rounded-lg shadow-lg p-8">
             <form action={data.formAction} method="POST" className="space-y-6">
               {data.fields.map((field, index) => (
@@ -72,7 +93,6 @@ const Contact: React.FC<ContactProps> = ({ data }) => {
             </form>
           </div>
           
-          {/* Informações de contato */}
           {data.info && data.info.length > 0 && (
             <div className="space-y-8">
               {data.info.map((item, index) => (

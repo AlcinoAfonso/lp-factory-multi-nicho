@@ -1,12 +1,26 @@
-import { SmartImage } from '@/components/ui/SmartImage';
-import { cn } from '@/lib/utils';
-import { ServicesData } from '@/types/lp-config';
-import { Button } from '@/components/ui/Button';
-import { sectionDefaults } from '@/config/sections';
-import { typography } from '@/config/typography';
+import React from 'react';
 
 interface ServicesProps {
-  data: ServicesData;
+  data: {
+    id: string;
+    type: 'services';
+    backgroundColor?: string;
+    textColor?: string;
+    title: string;
+    items: Array<{
+      icon: string;
+      text: string;
+    }>;
+    image: {
+      src: string;
+      alt: string;
+    };
+    button?: {
+      text: string;
+      href: string;
+      variant?: string;
+    };
+  };
 }
 
 function Services({ data }: ServicesProps) {
@@ -15,45 +29,35 @@ function Services({ data }: ServicesProps) {
     ...(data.textColor && { color: data.textColor }),
   } as React.CSSProperties;
 
-
   return (
-    <section id={data.id} className={sectionDefaults.services.classes} style={sectionStyle}>
-      <div className={sectionDefaults.services.container}>
-        {/* Título centralizado */}
-        <div className={sectionDefaults.services.titleContainer}>
+    <section id={data.id} className="py-12 md:py-16" style={sectionStyle}>
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-12">
           <h2
-            className={cn(typography.sectionTitle.classes)}
+            className="text-3xl font-bold mb-4"
             style={{ color: data.textColor }}
           >
             {data.title}
           </h2>
         </div>
 
-        {/* Conteúdo: imagem à esquerda, textos à direita */}
-        <div className={sectionDefaults.services.contentLayout}>
-          {/* Container da imagem */}
-          <div className={sectionDefaults.services.imageContainer}>
+        <div className="flex flex-col md:flex-row gap-12 md:gap-16 items-center mb-12">
+          <div className="flex-1 w-full md:w-auto">
             <div className="relative w-full max-w-md mx-auto aspect-square rounded-2xl overflow-hidden shadow-xl">
-              <SmartImage
+              <img
                 src={data.image.src}
                 alt={data.image.alt}
-                fill
-                className="object-cover"
-                sizes="(max-width: 768px) 100vw, 400px"
+                className="w-full h-full object-cover"
               />
             </div>
           </div>
 
-          {/* Container dos textos */}
-          <div className={sectionDefaults.services.textContainer}>
+          <div className="flex-1 space-y-6">
             {data.items.map((item, index) => (
-              <div key={index} className={sectionDefaults.services.textItem}>
-                {/* Ícone inline */}
-                <span className={sectionDefaults.services.iconInline}>{item.icon}</span>
-
-                {/* Texto */}
+              <div key={index} className="flex gap-4">
+                <span className="text-2xl flex-shrink-0 mt-1">{item.icon}</span>
                 <p
-                  className={cn(typography.bodyText.classes, 'mb-0')}
+                  className="text-base mb-0"
                   style={{ color: data.textColor }}
                   dangerouslySetInnerHTML={{
                     __html: item.text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'),
@@ -62,10 +66,16 @@ function Services({ data }: ServicesProps) {
               </div>
             ))}
 
-            {/* Botão */}
             {data.button && (
-              <div className={sectionDefaults.services.buttonContainer}>
-                <Button {...data.button} />
+              <div className="mt-8">
+                <a
+                  href={data.button.href}
+                  className="inline-block px-8 py-4 rounded-2xl font-semibold transition-all duration-200 text-center bg-orange-500 text-white hover:bg-orange-600 shadow-lg hover:shadow-xl"
+                  target={data.button.href.startsWith('http') ? '_blank' : undefined}
+                  rel={data.button.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                >
+                  {data.button.text}
+                </a>
               </div>
             )}
           </div>

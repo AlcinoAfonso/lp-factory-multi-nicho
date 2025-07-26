@@ -1,9 +1,18 @@
 import React from 'react';
-import { SmartImage } from '@/components/ui/SmartImage';
-import { GalleryData } from '@/types/lp-config';
 
 interface GalleryProps {
-  data: GalleryData;
+  data: {
+    id: string;
+    type: 'gallery';
+    backgroundColor?: string;
+    textColor?: string;
+    title: string;
+    subtitle?: string;
+    images: Array<{
+      src: string;
+      alt: string;
+    }>;
+  };
 }
 
 const Gallery: React.FC<GalleryProps> = ({ data }) => {
@@ -35,12 +44,10 @@ const Gallery: React.FC<GalleryProps> = ({ data }) => {
               key={index}
               className="relative aspect-video rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
             >
-              <SmartImage
+              <img
                 src={image.src}
                 alt={image.alt}
-                fill
-                className="object-cover"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                className="w-full h-full object-cover"
               />
             </div>
           ))}
