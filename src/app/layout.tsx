@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import lpData from '../../lp.json';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -10,18 +9,13 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: lpData.metadata.title,
-  description: lpData.metadata.description,
+  title: 'LP Factory',
+  description: 'Plataforma de Landing Pages',
   icons: {
-    icon: lpData.metadata.favicon || '/favicon.ico',
-  },
-  other: {
-    charset: 'utf-8',
+    icon: '/favicon.ico',
   },
 };
 
-// Viewport separado (Next.js 14 requirement)
-// \u2705 CORRE\u00C7\u00C3O: Removido maximum-scale para acessibilidade
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,

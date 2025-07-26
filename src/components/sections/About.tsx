@@ -1,15 +1,28 @@
 import React from 'react';
-import { SmartImage } from '@/components/ui/SmartImage';
-import { AboutData } from '@/types/lp-config';
 
 interface AboutProps {
-  data: AboutData;
+  data: {
+    id: string;
+    type: 'about';
+    backgroundColor?: string;
+    textColor?: string;
+    title: string;
+    description: string;
+    image?: {
+      src: string;
+      alt: string;
+    };
+    button?: {
+      text: string;
+      href: string;
+      variant?: string;
+    };
+  };
 }
 
 const About: React.FC<AboutProps> = ({ data }) => {
   const hasImage = data.image !== undefined;
 
-  
   return (
     <section
       id={data.id}
@@ -23,12 +36,10 @@ const About: React.FC<AboutProps> = ({ data }) => {
         <div className="grid md:grid-cols-2 gap-12 items-center">
           {hasImage && (
             <div className="relative w-full max-w-md mx-auto aspect-square rounded-2xl overflow-hidden shadow-xl">
-              <SmartImage
+              <img
                 src={data.image!.src}
                 alt={data.image!.alt}
-                fill
-                className="object-cover"
-                sizes="(max-width: 768px) 100vw, 400px"
+                className="w-full h-full object-cover"
               />
             </div>
           )}

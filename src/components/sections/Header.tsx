@@ -1,15 +1,29 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
-import { SmartImage } from '@/components/ui/SmartImage';
-import { cn } from '@/lib/utils';
-import { HeaderData, isTextLogo } from '@/types/lp-config';
-import { sectionDefaults } from '@/config/sections';
-import { typography } from '@/config/typography';
 
 interface HeaderProps {
-  data: HeaderData;
+  data: {
+    id: string;
+    type: 'header';
+    backgroundColor?: string;
+    textColor?: string;
+    logo: {
+      type: 'text' | 'image';
+      text?: string;
+      subtitle?: string;
+      src?: string;
+      alt?: string;
+    };
+    navigation: Array<{
+      label: string;
+      href: string;
+    }>;
+    phone?: {
+      display: string;
+      link: string;
+    };
+  };
 }
 
 function Header({ data }: HeaderProps) {
@@ -22,43 +36,38 @@ function Header({ data }: HeaderProps) {
 
   return (
     <header
-      className={cn(sectionDefaults.header.classes, 'sticky top-0 z-50')}
+      className="sticky top-0 z-50 py-4 shadow-sm"
       style={containerStyle}
     >
-      <div className={cn(sectionDefaults.header.container, sectionDefaults.header.grid)}>
-        <div className={sectionDefaults.header.logoContainer}>
-          <span className="inline-block cursor-default">
-            {isTextLogo(data.logo) ? (
-              <div>
-                <div className={cn(typography.logoText.classes)} style={{ color: data.textColor }}>
-                  {data.logo.text}
-                </div>
-                {data.logo.subtitle && (
-                  <div className={cn(typography.logoSubtitle.classes)} style={{ color: data.textColor }}>
-                    {data.logo.subtitle}
-                  </div>
-                )}
+      <div className="container mx-auto px-4 flex items-center justify-between">
+        <div className="flex-shrink-0">
+          {data.logo.type === 'text' ? (
+            <div>
+              <div className="text-xl font-bold" style={{ color: data.textColor }}>
+                {data.logo.text}
               </div>
-            ) : (
-              <SmartImage
-                src={data.logo.src}
-                alt={data.logo.alt}
-                width={200}
-                height={60}
-                className="h-12 md:h-14 w-auto"
-                priority
-              />
-            )}
-          </span>
+              {data.logo.subtitle && (
+                <div className="text-xs uppercase tracking-wide opacity-80" style={{ color: data.textColor }}>
+                  {data.logo.subtitle}
+                </div>
+              )}
+            </div>
+          ) : (
+            <img
+              src={data.logo.src}
+              alt={data.logo.alt}
+              className="h-12 md:h-14 w-auto"
+            />
+          )}
         </div>
 
-        <div className={sectionDefaults.header.navContainer}>
+        <div className="flex items-center space-x-6">
           <nav className="hidden md:flex items-center gap-6">
             {data.navigation.map((item, index) => (
               <a
                 key={index}
                 href={item.href}
-                className={cn(typography.navLink.classes, 'hover:opacity-70 transition-opacity')}
+                className="font-medium hover:opacity-70 transition-opacity"
                 style={{ color: data.textColor }}
               >
                 {item.label}
@@ -69,11 +78,7 @@ function Header({ data }: HeaderProps) {
           {data.phone && (
             <a
               href={data.phone.link}
-              className={cn(
-                typography.navLink.classes,
-                'font-bold hover:opacity-70 transition-opacity',
-                'hidden md:inline-block'
-              )}
+              className="font-bold hover:opacity-70 transition-opacity hidden md:inline-block"
               style={{ color: data.textColor }}
             >
               {data.phone.display}
@@ -99,7 +104,7 @@ function Header({ data }: HeaderProps) {
 
       {mobileMenuOpen && (
         <div className="md:hidden border-t" style={{ borderColor: data.textColor + '20', ...containerStyle }}>
-          <nav className="container-lp py-4 space-y-3">
+          <nav className="container mx-auto px-4 py-4 space-y-3">
             {data.navigation.map((item, index) => (
               <a
                 key={index}

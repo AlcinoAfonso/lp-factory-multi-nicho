@@ -1,8 +1,27 @@
 import React from 'react';
-import { PricingData } from '@/types/lp-config';
 
 interface PricingProps {
-  data: PricingData;
+  data: {
+    id: string;
+    type: 'pricing';
+    backgroundColor?: string;
+    textColor?: string;
+    title: string;
+    subtitle?: string;
+    plans: Array<{
+      name: string;
+      price: string;
+      currency: string;
+      period: string;
+      featured?: boolean;
+      features: string[];
+      button: {
+        text: string;
+        href: string;
+        variant?: string;
+      };
+    }>;
+  };
 }
 
 const Pricing: React.FC<PricingProps> = ({ data }) => {
