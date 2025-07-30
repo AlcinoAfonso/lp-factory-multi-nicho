@@ -350,8 +350,11 @@ export const DatabaseService = {
         account:accounts(*)
       `)
       .eq('partner_id', partnerId);
-    
+
     if (error) throw error;
     return data;
-  }
+  },
+
+  // Expor o cliente Supabase para uso direto quando necessário
+  supabase,
 };
