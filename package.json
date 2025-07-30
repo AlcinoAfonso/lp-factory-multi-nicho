@@ -20,9 +20,7 @@
     "clsx": "^2.1.1",
     "tailwind-merge": "^2.3.0",
     "lucide-react": "^0.263.1",
-    "@supabase/supabase-js": "^2.39.0",
-    "prisma": "^5.7.1",
-    "@prisma/client": "^5.7.1"
+    "@supabase/supabase-js": "^2.39.0"
   },
   "devDependencies": {
     "@types/node": "^20",
