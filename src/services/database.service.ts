@@ -21,7 +21,22 @@ export const DatabaseService = {
         plan:plans(*),
         partner:partners(*)
       `);
-    
+
+    if (error) throw error;
+    return data;
+  },
+
+  async getAccountsWithLPs() {
+    const { data, error } = await supabase
+      .from('accounts')
+      .select(`
+        *,
+        plan:plans(*),
+        partner:partners(*),
+        lps(*)
+      `)
+      .order('created_at', { ascending: false });
+
     if (error) throw error;
     return data;
   },
