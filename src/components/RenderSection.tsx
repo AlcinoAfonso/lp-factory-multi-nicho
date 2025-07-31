@@ -4,21 +4,21 @@
 import dynamic from 'next/dynamic'
 import type { Database } from '@/types/database'
 
-// Importar componentes de seção dinamicamente com tipo any
-const Header = dynamic<any>(() => import('./sections/Header'))
-const Hero = dynamic<any>(() => import('./sections/Hero'))
-const About = dynamic<any>(() => import('./sections/About'))
-const Services = dynamic<any>(() => import('./sections/Services'))
-const Benefits = dynamic<any>(() => import('./sections/Benefits'))
-const Technology = dynamic<any>(() => import('./sections/Technology'))
-const Steps = dynamic<any>(() => import('./sections/Steps'))
-const Testimonials = dynamic<any>(() => import('./sections/Testimonials'))
-const FAQ = dynamic<any>(() => import('./sections/FAQ'))
-const Gallery = dynamic<any>(() => import('./sections/Gallery'))
-const Pricing = dynamic<any>(() => import('./sections/Pricing'))
-const Contact = dynamic<any>(() => import('./sections/Contact'))
-const CTAFinal = dynamic<any>(() => import('./sections/CTAFinal'))
-const Footer = dynamic<any>(() => import('./sections/Footer'))
+// Importar componentes sem tipagem genérica
+const Header = dynamic(() => import('./sections/Header'))
+const Hero = dynamic(() => import('./sections/Hero'))
+const About = dynamic(() => import('./sections/About'))
+const Services = dynamic(() => import('./sections/Services'))
+const Benefits = dynamic(() => import('./sections/Benefits'))
+const Technology = dynamic(() => import('./sections/Technology'))
+const Steps = dynamic(() => import('./sections/Steps'))
+const Testimonials = dynamic(() => import('./sections/Testimonials'))
+const FAQ = dynamic(() => import('./sections/FAQ'))
+const Gallery = dynamic(() => import('./sections/Gallery'))
+const Pricing = dynamic(() => import('./sections/Pricing'))
+const Contact = dynamic(() => import('./sections/Contact'))
+const CTAFinal = dynamic(() => import('./sections/CTAFinal'))
+const Footer = dynamic(() => import('./sections/Footer'))
 
 interface RenderSectionProps {
   section: Database['public']['Tables']['lp_sections']['Row']
@@ -59,36 +59,39 @@ export function RenderSection({ section, accountData }: RenderSectionProps) {
     }
   }
 
+  // Criar props com tipo any para evitar conflitos
+  const props = { data: sectionData } as any
+
   // Renderizar componente baseado no tipo
   switch (section.section_type) {
     case 'header':
-      return <Header data={sectionData} />
+      return <Header {...props} />
     case 'hero':
-      return <Hero data={sectionData} />
+      return <Hero {...props} />
     case 'about':
-      return <About data={sectionData} />
+      return <About {...props} />
     case 'services':
-      return <Services data={sectionData} />
+      return <Services {...props} />
     case 'benefits':
-      return <Benefits data={sectionData} />
+      return <Benefits {...props} />
     case 'technology':
-      return <Technology data={sectionData} />
+      return <Technology {...props} />
     case 'steps':
-      return <Steps data={sectionData} />
+      return <Steps {...props} />
     case 'testimonials':
-      return <Testimonials data={sectionData} />
+      return <Testimonials {...props} />
     case 'faq':
-      return <FAQ data={sectionData} />
+      return <FAQ {...props} />
     case 'gallery':
-      return <Gallery data={sectionData} />
+      return <Gallery {...props} />
     case 'pricing':
-      return <Pricing data={sectionData} />
+      return <Pricing {...props} />
     case 'contact':
-      return <Contact data={sectionData} />
+      return <Contact {...props} />
     case 'ctaFinal':
-      return <CTAFinal data={sectionData} />
+      return <CTAFinal {...props} />
     case 'footer':
-      return <Footer data={sectionData} />
+      return <Footer {...props} />
     default:
       console.warn(`Tipo de seção não reconhecido: ${section.section_type}`)
       return null
