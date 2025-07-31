@@ -271,9 +271,27 @@ export const DatabaseService = {
       .eq('id', id)
       .select()
       .single();
-    
+
     if (error) throw error;
     return data;
+  },
+
+  async updateSectionOrder(sectionId: string, newOrder: number) {
+    const { error } = await supabase
+      .from('lp_sections')
+      .update({ order: newOrder })
+      .eq('id', sectionId);
+
+    if (error) throw error;
+  },
+
+  async toggleSectionActive(sectionId: string, active: boolean) {
+    const { error } = await supabase
+      .from('lp_sections')
+      .update({ active })
+      .eq('id', sectionId);
+
+    if (error) throw error;
   },
 
   // Templates

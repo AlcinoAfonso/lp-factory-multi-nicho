@@ -204,6 +204,261 @@ export function getSectionFields(sectionType: string): SectionField[] {
         type: 'color',
       },
     ],
+    benefits: [
+      {
+        name: 'title',
+        label: 'Título',
+        type: 'text',
+        required: true,
+      },
+      {
+        name: 'backgroundColor',
+        label: 'Cor de Fundo',
+        type: 'color',
+      },
+      {
+        name: 'textColor',
+        label: 'Cor do Texto',
+        type: 'color',
+      },
+    ],
+
+    steps: [
+      {
+        name: 'title',
+        label: 'Título',
+        type: 'text',
+        required: true,
+      },
+      {
+        name: 'button.text',
+        label: 'Texto do Botão',
+        type: 'text',
+        path: ['button', 'text'],
+        required: true,
+      },
+      {
+        name: 'button.href',
+        label: 'Link do Botão',
+        type: 'url',
+        path: ['button', 'href'],
+        required: true,
+      },
+    ],
+
+    testimonials: [
+      {
+        name: 'title',
+        label: 'Título',
+        type: 'text',
+        required: true,
+      },
+      {
+        name: 'backgroundColor',
+        label: 'Cor de Fundo',
+        type: 'color',
+      },
+      {
+        name: 'textColor',
+        label: 'Cor do Texto',
+        type: 'color',
+      },
+    ],
+
+    faq: [
+      {
+        name: 'title',
+        label: 'Título',
+        type: 'text',
+        required: true,
+      },
+      {
+        name: 'backgroundColor',
+        label: 'Cor de Fundo',
+        type: 'color',
+      },
+      {
+        name: 'textColor',
+        label: 'Cor do Texto',
+        type: 'color',
+      },
+    ],
+
+    contact: [
+      {
+        name: 'title',
+        label: 'Título',
+        type: 'text',
+        required: true,
+      },
+      {
+        name: 'subtitle',
+        label: 'Subtítulo',
+        type: 'text',
+      },
+      {
+        name: 'formAction',
+        label: 'URL de Ação do Formulário',
+        type: 'url',
+        required: true,
+        helper: 'Para onde o formulário será enviado',
+      },
+      {
+        name: 'submitButton.text',
+        label: 'Texto do Botão de Envio',
+        type: 'text',
+        path: ['submitButton', 'text'],
+        required: true,
+      },
+    ],
+
+    pricing: [
+      {
+        name: 'title',
+        label: 'Título',
+        type: 'text',
+        required: true,
+      },
+      {
+        name: 'subtitle',
+        label: 'Subtítulo',
+        type: 'text',
+      },
+      {
+        name: 'backgroundColor',
+        label: 'Cor de Fundo',
+        type: 'color',
+      },
+      {
+        name: 'textColor',
+        label: 'Cor do Texto',
+        type: 'color',
+      },
+    ],
+
+    gallery: [
+      {
+        name: 'title',
+        label: 'Título',
+        type: 'text',
+        required: true,
+      },
+      {
+        name: 'subtitle',
+        label: 'Subtítulo',
+        type: 'text',
+      },
+    ],
+
+    technology: [
+      {
+        name: 'title',
+        label: 'Título',
+        type: 'text',
+        required: true,
+      },
+      {
+        name: 'image.src',
+        label: 'URL da Imagem',
+        type: 'url',
+        path: ['image', 'src'],
+        required: true,
+      },
+      {
+        name: 'image.alt',
+        label: 'Texto Alternativo da Imagem',
+        type: 'text',
+        path: ['image', 'alt'],
+        required: true,
+      },
+      {
+        name: 'button.text',
+        label: 'Texto do Botão',
+        type: 'text',
+        path: ['button', 'text'],
+        required: true,
+      },
+      {
+        name: 'button.href',
+        label: 'Link do Botão',
+        type: 'url',
+        path: ['button', 'href'],
+        required: true,
+      },
+    ],
+
+    ctaFinal: [
+      {
+        name: 'title',
+        label: 'Título',
+        type: 'text',
+        required: true,
+      },
+      {
+        name: 'subtitle',
+        label: 'Subtítulo',
+        type: 'text',
+      },
+      {
+        name: 'button.text',
+        label: 'Texto do Botão',
+        type: 'text',
+        path: ['button', 'text'],
+        required: true,
+      },
+      {
+        name: 'button.href',
+        label: 'Link do Botão',
+        type: 'url',
+        path: ['button', 'href'],
+        required: true,
+      },
+      {
+        name: 'backgroundColor',
+        label: 'Cor de Fundo',
+        type: 'color',
+      },
+      {
+        name: 'textColor',
+        label: 'Cor do Texto',
+        type: 'color',
+      },
+    ],
+
+    footer: [
+      {
+        name: 'instagram.url',
+        label: 'URL do Instagram',
+        type: 'url',
+        path: ['instagram', 'url'],
+        required: true,
+      },
+      {
+        name: 'instagram.text',
+        label: 'Texto do Instagram',
+        type: 'text',
+        path: ['instagram', 'text'],
+        required: true,
+      },
+      {
+        name: 'copyright',
+        label: 'Texto de Copyright',
+        type: 'text',
+        required: true,
+      },
+      {
+        name: 'legalLink.text',
+        label: 'Texto do Link Legal',
+        type: 'text',
+        path: ['legalLink', 'text'],
+      },
+      {
+        name: 'legalLink.href',
+        label: 'URL do Link Legal',
+        type: 'url',
+        path: ['legalLink', 'href'],
+      },
+    ],
   }
 
   return schemas[sectionType] || []
