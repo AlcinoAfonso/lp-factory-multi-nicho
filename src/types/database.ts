@@ -1,3 +1,4 @@
+// src/types/database.ts
 export type Json =
   | string
   | number
@@ -210,6 +211,7 @@ export interface Database {
           objetivo: 'tofu' | 'mofu' | 'bofu' | 'generica' | null
           template_id: string | null
           active: boolean
+          is_homepage: boolean
           created_at: string
           updated_at: string
         }
@@ -222,6 +224,7 @@ export interface Database {
           objetivo?: 'tofu' | 'mofu' | 'bofu' | 'generica' | null
           template_id?: string | null
           active?: boolean
+          is_homepage?: boolean
           created_at?: string
           updated_at?: string
         }
@@ -234,6 +237,7 @@ export interface Database {
           objetivo?: 'tofu' | 'mofu' | 'bofu' | 'generica' | null
           template_id?: string | null
           active?: boolean
+          is_homepage?: boolean
           created_at?: string
           updated_at?: string
         }
