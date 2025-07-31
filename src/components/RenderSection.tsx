@@ -1,7 +1,6 @@
 import dynamic from 'next/dynamic'
 import type { Database } from '@/types/database'
 
-// Importar componentes de seção dinamicamente
 const sectionComponents = {
   header: dynamic(() => import('./sections/Header')),
   hero: dynamic(() => import('./sections/Hero')),
@@ -32,18 +31,15 @@ export function RenderSection({ section, accountData }: RenderSectionProps) {
     return null
   }
 
-  // Aplicar customizações da conta (cores, logo, etc)
   const sectionData = {
-    ...section.content_json,
-    // Aplicar paleta de cores da conta se disponível
+    ...(section.content_json as any || {}),
     ...(accountData.palette && {
-      backgroundColor: section.content_json.backgroundColor || accountData.palette.primary,
-      textColor: section.content_json.textColor || accountData.palette.secondary,
+      backgroundColor: (section.content_json as any)?.backgroundColor || (accountData.palette as any)?.primary,
+      textColor: (section.content_json as any)?.textColor || (accountData.palette as any)?.secondary,
     }),
-    // Aplicar logo da conta no header se disponível
     ...(section.section_type === 'header' && accountData.logo_url && {
       logo: {
-        ...section.content_json.logo,
+        ...(section.content_json as any)?.logo,
         src: accountData.logo_url,
         alt: accountData.name,
       }
