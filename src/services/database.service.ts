@@ -145,6 +145,28 @@ export const DatabaseService = {
     return data;
   },
 
+  async setLPAsHomepage(accountId: string, lpId: string) {
+    const { error } = await supabase.rpc('set_lp_as_homepage', {
+      p_account_id: accountId,
+      p_lp_id: lpId,
+    });
+
+    if (error) throw error;
+    return { success: true };
+  },
+
+  async getHomepageLP(accountId: string) {
+    const { data, error } = await supabase
+      .from('lps')
+      .select('*')
+      .eq('account_id', accountId)
+      .eq('is_homepage', true)
+      .single();
+
+    if (error && error.code !== 'PGRST116') throw error;
+    return data;
+  },
+
   // LP Sections
   async getLPSections(lpId: string) {
     const { data, error } = await supabase

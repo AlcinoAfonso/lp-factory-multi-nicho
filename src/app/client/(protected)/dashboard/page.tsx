@@ -5,6 +5,8 @@ import { useClientAuth } from '@/hooks/useClientAuth'
 import { DatabaseService } from '@/services/database.service'
 import type { Database } from '@/types/database'
 import Link from 'next/link'
+import { HomepageCard } from '@/components/client/HomepageCard'
+import { ChangeHomepageModal } from '@/components/client/ChangeHomepageModal'
 
 type LP = Database['public']['Tables']['lps']['Row']
 
@@ -12,10 +14,13 @@ export default function ClientDashboard() {
   const { account, loading: authLoading } = useClientAuth()
   const [lps, setLps] = useState<LP[]>([])
   const [loading, setLoading] = useState(true)
+  const [homepageLP, setHomepageLP] = useState<LP | null>(null)
+  const [showHomepageModal, setShowHomepageModal] = useState(false)
 
   useEffect(() => {
     if (account) {
       fetchLPs()
+      fetchHomepage()
     }
   }, [account])
 
@@ -30,6 +35,29 @@ export default function ClientDashboard() {
       console.error('Erro ao buscar LPs:', error)
     } finally {
       setLoading(false)
+    }
+  }
+
+  const fetchHomepage = async () => {
+    if (!account) return
+    try {
+      const homepage = await DatabaseService.getHomepageLP(account.id)
+      setHomepageLP(homepage)
+    } catch (error) {
+      console.error('Erro ao buscar homepage:', error)
+    }
+  }
+
+  const handleSetHomepage = async (lpId: string) => {
+    if (!account) return
+
+    try {
+      await DatabaseService.setLPAsHomepage(account.id, lpId)
+      await fetchHomepage()
+      await fetchLPs()
+    } catch (error) {
+      console.error('Erro ao definir homepage:', error)
+      throw error
     }
   }
 
@@ -61,6 +89,13 @@ export default function ClientDashboard() {
             Nova Landing Page
           </Link>
         </div>
+      </div>
+
+      <div className="mt-8 mb-8">
+        <HomepageCard
+          currentHomepage={homepageLP}
+          onChangeHomepage={() => setShowHomepageModal(true)}
+        />
       </div>
 
       {/* Stats */}
@@ -144,6 +179,13 @@ export default function ClientDashboard() {
           </ul>
         </div>
       </div>
+      <ChangeHomepageModal
+        isOpen={showHomepageModal}
+        onClose={() => setShowHomepageModal(false)}
+        lps={lps.filter(lp => lp.active)}
+        currentHomepageId={homepageLP?.id || null}
+        onSelectHomepage={handleSetHomepage}
+      />
     </div>
   )
 }
