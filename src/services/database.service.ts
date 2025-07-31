@@ -355,6 +355,6 @@ export const DatabaseService = {
     return data;
   },
 
-  // Expor o cliente Supabase para uso direto quando necessário
+  // Expor cliente Supabase
   supabase,
 };
