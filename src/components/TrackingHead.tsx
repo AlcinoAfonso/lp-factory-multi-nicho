@@ -1,7 +1,9 @@
+// src/components/TrackingHead.tsx
 'use client'
 
 import Script from 'next/script'
 import { useEffect } from 'react'
+import { DatabaseService } from '@/services/database.service'
 import type { Database } from '@/types/database'
 
 interface TrackingHeadProps {
