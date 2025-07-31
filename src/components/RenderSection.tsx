@@ -1,6 +1,8 @@
+// src/components/RenderSection.tsx
 import dynamic from 'next/dynamic'
 import type { Database } from '@/types/database'
 
+// Importar componentes de seção dinamicamente
 const sectionComponents = {
   header: dynamic(() => import('./sections/Header')),
   hero: dynamic(() => import('./sections/Hero')),
@@ -24,27 +26,48 @@ interface RenderSectionProps {
 }
 
 export function RenderSection({ section, accountData }: RenderSectionProps) {
-  const Component = sectionComponents[section.section_type as keyof typeof sectionComponents]
+  // Obter o componente baseado no tipo da seção
+  const sectionType = section.section_type as keyof typeof sectionComponents
+  const Component = sectionComponents[sectionType]
 
   if (!Component) {
     console.warn(`Tipo de seção não reconhecido: ${section.section_type}`)
     return null
   }
 
-  const sectionData = {
-    ...(section.content_json as any || {}),
-    ...(accountData.palette && {
-      backgroundColor: (section.content_json as any)?.backgroundColor || (accountData.palette as any)?.primary,
-      textColor: (section.content_json as any)?.textColor || (accountData.palette as any)?.secondary,
-    }),
-    ...(section.section_type === 'header' && accountData.logo_url && {
-      logo: {
-        ...(section.content_json as any)?.logo,
-        src: accountData.logo_url,
-        alt: accountData.name,
-      }
-    }),
+  // Preparar dados da seção com customizações da conta
+  let sectionData: any = section.content_json || {}
+
+  // Converter para objeto caso seja string JSON
+  if (typeof sectionData === 'string') {
+    try {
+      sectionData = JSON.parse(sectionData)
+    } catch (e) {
+      console.error('Erro ao parsear content_json:', e)
+      return null
+    }
   }
 
-  return <Component data={sectionData} />
+  // Aplicar paleta de cores da conta se disponível
+  if (accountData.palette && typeof accountData.palette === 'object') {
+    const palette = accountData.palette as any
+    if (!sectionData.backgroundColor && palette.primary) {
+      sectionData.backgroundColor = palette.primary
+    }
+    if (!sectionData.textColor && palette.secondary) {
+      sectionData.textColor = palette.secondary
+    }
+  }
+
+  // Aplicar logo da conta no header se disponível
+  if (section.section_type === 'header' && accountData.logo_url) {
+    sectionData.logo = {
+      ...sectionData.logo,
+      src: accountData.logo_url,
+      alt: accountData.name,
+    }
+  }
+
+  // Renderizar componente com type assertion para any
+  return <Component data={sectionData as any} />
 }
