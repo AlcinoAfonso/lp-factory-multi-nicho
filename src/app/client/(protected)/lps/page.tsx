@@ -176,6 +176,12 @@ export default function ClientLPsPage() {
                           >
                             Editar
                           </Link>
+                          <Link
+                            href={`/client/lps/${lp.id}/sections`}
+                            className="text-blue-600 hover:text-blue-900 mr-4"
+                          >
+                            Seções
+                          </Link>
                           <button
                             onClick={() => handleDuplicate(lp)}
                             className="text-gray-600 hover:text-gray-900 mr-4"
