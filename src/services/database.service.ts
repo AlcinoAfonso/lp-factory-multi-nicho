@@ -110,6 +110,74 @@ export const DatabaseService = {
     return data;
   },
 
+  async getLPById(id: string) {
+    const { data, error } = await supabase
+      .from('lps')
+      .select('*')
+      .eq('id', id)
+      .single();
+
+    if (error) throw error;
+    return data;
+  },
+
+  async deleteLP(id: string) {
+    const { error } = await supabase
+      .from('lps')
+      .delete()
+      .eq('id', id);
+
+    if (error) throw error;
+  },
+
+  async duplicateLP(originalId: string, newData: { slug: string; title: string }) {
+    const { data: originalLP, error: lpError } = await supabase
+      .from('lps')
+      .select(`
+        *,
+        sections:lp_sections(*)
+      `)
+      .eq('id', originalId)
+      .single();
+
+    if (lpError) throw lpError;
+
+    const { data: newLP, error: createError } = await supabase
+      .from('lps')
+      .insert({
+        account_id: originalLP.account_id,
+        slug: newData.slug,
+        title: newData.title,
+        nicho: originalLP.nicho,
+        objetivo: originalLP.objetivo,
+        template_id: originalLP.template_id,
+        active: false,
+        is_homepage: false,
+      })
+      .select()
+      .single();
+
+    if (createError) throw createError;
+
+    if (originalLP.sections && originalLP.sections.length > 0) {
+      const newSections = originalLP.sections.map((section: any) => ({
+        lp_id: newLP.id,
+        section_type: section.section_type,
+        order: section.order,
+        content_json: section.content_json,
+        active: section.active,
+      }));
+
+      const { error: sectionsError } = await supabase
+        .from('lp_sections')
+        .insert(newSections);
+
+      if (sectionsError) throw sectionsError;
+    }
+
+    return newLP;
+  },
+
   async createLP(lp: {
     account_id: string;
     slug: string;
