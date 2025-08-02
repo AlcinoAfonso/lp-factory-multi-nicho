@@ -27,6 +27,7 @@ export default function AdminLoginPage() {
 
       // Redirecionar para dashboard após login bem-sucedido
       router.push('/admin/dashboard')
+      router.refresh();
     } catch (err) {
       setError('Erro ao fazer login. Tente novamente.')
     } finally {
