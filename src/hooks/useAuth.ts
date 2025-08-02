@@ -2,8 +2,11 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { supabase } from '@/lib/supabase'
 import type { User } from '@supabase/supabase-js'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import type { Database } from '@/types/database';
+const supabase = createClientComponentClient<Database>();
+
 
 interface AuthState {
   user: User | null
@@ -93,3 +96,4 @@ export function useAuth() {
     isAuthenticated: !!authState.user,
   }
 }
+“use helper client”
