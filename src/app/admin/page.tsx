@@ -1,1 +1,5 @@
-ts\nimport { redirect } from 'next/navigation';\nexport default function AdminRoot() {\n redirect('/admin/dashboard');\n}\n
+import { redirect } from 'next/navigation';
+
+export default function AdminRoot() {
+  redirect('/admin/dashboard');
+}
