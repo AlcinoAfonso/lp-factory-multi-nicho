@@ -96,4 +96,3 @@ export function useAuth() {
     isAuthenticated: !!authState.user,
   }
 }
-“use helper client”
