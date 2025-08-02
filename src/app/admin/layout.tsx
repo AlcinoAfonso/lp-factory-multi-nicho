@@ -12,22 +12,6 @@ export default async function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // Criar cliente Supabase no servidor com cookies
-  const cookieStore = cookies();
-  const supabase = createServerComponentClient<Database>({ 
-    cookies: () => cookieStore 
-  });
-
-  // Verificar sessão atual
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-
-  // Se não há sessão, redirecionar para login
-  if (!session) {
-    redirect('/admin/login');
-  }
-
-  // Se há sessão, renderizar o conteúdo
+  // Renderizar diretamente - a proteção será feita no layout da pasta (protected)
   return <>{children}</>;
 }
