@@ -27,6 +27,7 @@ export default function ClientLoginPage() {
 
       // Redirecionar para dashboard após login bem-sucedido
       router.push('/client/dashboard')
+      router.refresh()
     } catch (err) {
       setError('Erro ao fazer login. Tente novamente.')
     } finally {
