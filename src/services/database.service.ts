@@ -1,5 +1,3 @@
-// src/services/database.service.ts
 // TEMPORÁRIO – será substituído pelo novo DatabaseService
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const DatabaseService: any = {};
+// Objeto “liberado” para não quebrar os imports;
+export const DatabaseService = {} as any;
