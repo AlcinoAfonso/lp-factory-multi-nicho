@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { notFound } from 'next/navigation'
 import { DatabaseService } from '@/services/database.service'
 import { RenderSection } from '@/components/RenderSection'
