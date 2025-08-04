@@ -23,18 +23,9 @@ export default async function HomePage() {
               </p>
             </div>
             <div className="flex gap-4">
-              <Link
-                href="/client/login"
-                className="text-gray-600 hover:text-gray-900"
-              >
-                Área do Cliente
-              </Link>
-              <Link
-                href="/admin/login"
-                className="text-gray-600 hover:text-gray-900"
-              >
-                Admin
-              </Link>
+              <span className="text-sm text-gray-500">
+                Plataforma em desenvolvimento
+              </span>
             </div>
           </div>
         </div>

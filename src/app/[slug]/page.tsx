@@ -1,9 +1,8 @@
-// @ts-nocheck
+// src/app/[slug]/page.tsx
 
 import { notFound } from 'next/navigation'
 import { DatabaseService } from '@/services/database.service'
 import { RenderSection } from '@/components/RenderSection'
-import { TrackingHead } from '@/components/TrackingHead'
 import type { Database } from '@/types/database'
 
 type LPWithDetails = Database['public']['Tables']['lps']['Row'] & {
@@ -24,31 +23,19 @@ export default async function LandingPage({ params }: PageProps) {
     notFound()
   }
 
-  // Buscar configurações de tracking
-  const trackingConfig = await DatabaseService.getTrackingConfig(lp.account_id)
-  const conversionTags = await DatabaseService.getConversionTags(lp.id)
-
   return (
-    <>
-      <TrackingHead
-        trackingConfig={trackingConfig}
-        conversionTags={conversionTags}
-        lpData={lp}
-      />
-      
-      <div className="min-h-screen">
-        {lp.sections
-          .filter(section => section.active)
-          .sort((a, b) => a.order - b.order)
-          .map((section) => (
-            <RenderSection
-              key={section.id}
-              section={section}
-              accountData={lp.account}
-            />
-          ))}
-      </div>
-    </>
+    <div className="min-h-screen">
+      {lp.sections
+        .filter((section: any) => section.active)
+        .sort((a: any, b: any) => a.order - b.order)
+        .map((section: any) => (
+          <RenderSection
+            key={section.id}
+            section={section}
+            accountData={lp.account}
+          />
+        ))}
+    </div>
   )
 }
 
