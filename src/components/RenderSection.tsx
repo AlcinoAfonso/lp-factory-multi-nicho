@@ -39,23 +39,31 @@ export function RenderSection({ section, accountData }: RenderSectionProps) {
     }
   }
 
-  // Aplicar paleta de cores da conta se disponível
-  if (accountData.palette && typeof accountData.palette === 'object') {
-    const palette = accountData.palette as any
-    if (!sectionData.backgroundColor && palette.primary) {
-      sectionData.backgroundColor = palette.primary
-    }
-    if (!sectionData.textColor && palette.secondary) {
-      sectionData.textColor = palette.secondary
+  // Aplicar configuração de branding da conta se disponível
+  if (accountData.branding_config && typeof accountData.branding_config === 'object') {
+    const brandingConfig = accountData.branding_config as any
+    
+    // Aplicar cores se disponíveis no branding_config
+    if (brandingConfig.colors) {
+      if (!sectionData.backgroundColor && brandingConfig.colors.primary) {
+        sectionData.backgroundColor = brandingConfig.colors.primary
+      }
+      if (!sectionData.textColor && brandingConfig.colors.secondary) {
+        sectionData.textColor = brandingConfig.colors.secondary
+      }
     }
   }
 
   // Aplicar logo da conta no header se disponível
-  if (section.section_type === 'header' && accountData.logo_url) {
-    sectionData.logo = {
-      ...sectionData.logo,
-      src: accountData.logo_url,
-      alt: accountData.name,
+  if (section.section_type === 'header' && accountData.branding_config) {
+    const brandingConfig = accountData.branding_config as any
+    if (brandingConfig.logo?.url) {
+      sectionData.logo = {
+        ...sectionData.logo,
+        type: 'image',
+        src: brandingConfig.logo.url,
+        alt: brandingConfig.logo.alt || accountData.name,
+      }
     }
   }
 
