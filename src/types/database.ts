@@ -1,511 +1,107 @@
-export type Json =
-  | string
-  | number
-  | boolean
-  | null
-  | { [key: string]: Json | undefined }
-  | Json[]
+// src/components/RenderSection.tsx
+'use client'
 
-export interface Database {
-  public: {
-    Tables: {
-      accounts: {
-        Row: {
-          id: string
-          name: string
-          email: string
-          domain: string | null
-          subdomain: string | null
-          plan_id: string | null
-          owner_user_id: string | null
-          data_region: string | null
-          branding_config: Json | null
-          settings: Json | null
-          status: string | null
-          trial_ends_at: string | null
-          last_active_at: string | null
-          monthly_leads_count: number | null
-          monthly_pageviews_count: number | null
-          storage_used_mb: number | null
-          last_quota_reset: string | null
-          created_at: string
-          updated_at: string
-        }
-        Insert: {
-          id?: string
-          name: string
-          email: string
-          domain?: string | null
-          subdomain?: string | null
-          plan_id?: string | null
-          owner_user_id?: string | null
-          data_region?: string | null
-          branding_config?: Json | null
-          settings?: Json | null
-          status?: string | null
-          trial_ends_at?: string | null
-          last_active_at?: string | null
-          monthly_leads_count?: number | null
-          monthly_pageviews_count?: number | null
-          storage_used_mb?: number | null
-          last_quota_reset?: string | null
-          created_at?: string
-          updated_at?: string
-        }
-        Update: {
-          id?: string
-          name?: string
-          email?: string
-          domain?: string | null
-          subdomain?: string | null
-          plan_id?: string | null
-          owner_user_id?: string | null
-          data_region?: string | null
-          branding_config?: Json | null
-          settings?: Json | null
-          status?: string | null
-          trial_ends_at?: string | null
-          last_active_at?: string | null
-          monthly_leads_count?: number | null
-          monthly_pageviews_count?: number | null
-          storage_used_mb?: number | null
-          last_quota_reset?: string | null
-          created_at?: string
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "accounts_owner_user_id_fkey"
-            columns: ["owner_user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "accounts_plan_id_fkey"
-            columns: ["plan_id"]
-            isOneToOne: false
-            referencedRelation: "plans"
-            referencedColumns: ["id"]
-          }
-        ]
+import dynamic from 'next/dynamic'
+import type { Database } from '@/types/database'
+
+// Importar componentes sem tipagem genérica
+const Header = dynamic(() => import('./sections/Header'))
+const Hero = dynamic(() => import('./sections/Hero'))
+const About = dynamic(() => import('./sections/About'))
+const Services = dynamic(() => import('./sections/Services'))
+const Benefits = dynamic(() => import('./sections/Benefits'))
+const Technology = dynamic(() => import('./sections/Technology'))
+const Steps = dynamic(() => import('./sections/Steps'))
+const Testimonials = dynamic(() => import('./sections/Testimonials'))
+const FAQ = dynamic(() => import('./sections/FAQ'))
+const Gallery = dynamic(() => import('./sections/Gallery'))
+const Pricing = dynamic(() => import('./sections/Pricing'))
+const Contact = dynamic(() => import('./sections/Contact'))
+const CTAFinal = dynamic(() => import('./sections/CTAFinal'))
+const Footer = dynamic(() => import('./sections/Footer'))
+
+interface RenderSectionProps {
+  section: Database['public']['Tables']['lp_sections']['Row']
+  accountData: Database['public']['Tables']['accounts']['Row']
+}
+
+export function RenderSection({ section, accountData }: RenderSectionProps) {
+  // Preparar dados da seção
+  let sectionData: any = section.content_json || {}
+
+  // Converter para objeto caso seja string JSON
+  if (typeof sectionData === 'string') {
+    try {
+      sectionData = JSON.parse(sectionData)
+    } catch (e) {
+      console.error('Erro ao parsear content_json:', e)
+      return null
+    }
+  }
+
+  // Aplicar configuração de branding da conta se disponível
+  if (accountData.branding_config && typeof accountData.branding_config === 'object') {
+    const brandingConfig = accountData.branding_config as any
+    
+    // Aplicar cores se disponíveis no branding_config
+    if (brandingConfig.colors) {
+      if (!sectionData.backgroundColor && brandingConfig.colors.primary) {
+        sectionData.backgroundColor = brandingConfig.colors.primary
       }
-      leads: {
-        Row: {
-          id: string
-          lp_id: string
-          account_id: string
-          form_data: Json
-          source_info: Json | null
-          status: string | null
-          email: string | null
-          phone: string | null
-          created_at: string
-          updated_at: string
-        }
-        Insert: {
-          id?: string
-          lp_id: string
-          account_id: string
-          form_data?: Json
-          source_info?: Json | null
-          status?: string | null
-          email?: string | null
-          phone?: string | null
-          created_at?: string
-          updated_at?: string
-        }
-        Update: {
-          id?: string
-          lp_id?: string
-          account_id?: string
-          form_data?: Json
-          source_info?: Json | null
-          status?: string | null
-          email?: string | null
-          phone?: string | null
-          created_at?: string
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "leads_account_id_fkey"
-            columns: ["account_id"]
-            isOneToOne: false
-            referencedRelation: "accounts"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "leads_lp_id_fkey"
-            columns: ["lp_id"]
-            isOneToOne: false
-            referencedRelation: "lps"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
-      lp_sections: {
-        Row: {
-          id: string
-          lp_id: string
-          section_type: string
-          order_index: number
-          content_json: Json
-          active: boolean | null
-          created_at: string
-          updated_at: string
-        }
-        Insert: {
-          id?: string
-          lp_id: string
-          section_type: string
-          order_index: number
-          content_json?: Json
-          active?: boolean | null
-          created_at?: string
-          updated_at?: string
-        }
-        Update: {
-          id?: string
-          lp_id?: string
-          section_type?: string
-          order_index?: number
-          content_json?: Json
-          active?: boolean | null
-          created_at?: string
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "lp_sections_lp_id_fkey"
-            columns: ["lp_id"]
-            isOneToOne: false
-            referencedRelation: "lps"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
-      lps: {
-        Row: {
-          id: string
-          account_id: string
-          title: string
-          slug: string
-          template_id: string | null
-          nicho: string | null
-          objetivo: string | null
-          status: string | null
-          is_homepage: boolean | null
-          variant: string | null
-          conversion_rate: number | null
-          published_at: string | null
-          created_at: string
-          updated_at: string
-        }
-        Insert: {
-          id?: string
-          account_id: string
-          title: string
-          slug: string
-          template_id?: string | null
-          nicho?: string | null
-          objetivo?: string | null
-          status?: string | null
-          is_homepage?: boolean | null
-          variant?: string | null
-          conversion_rate?: number | null
-          published_at?: string | null
-          created_at?: string
-          updated_at?: string
-        }
-        Update: {
-          id?: string
-          account_id?: string
-          title?: string
-          slug?: string
-          template_id?: string | null
-          nicho?: string | null
-          objetivo?: string | null
-          status?: string | null
-          is_homepage?: boolean | null
-          variant?: string | null
-          conversion_rate?: number | null
-          published_at?: string | null
-          created_at?: string
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "lps_account_id_fkey"
-            columns: ["account_id"]
-            isOneToOne: false
-            referencedRelation: "accounts"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "lps_template_id_fkey"
-            columns: ["template_id"]
-            isOneToOne: false
-            referencedRelation: "templates"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
-      plans: {
-        Row: {
-          id: string
-          name: string
-          max_lps: number | null
-          max_conversions: number | null
-          price_monthly: number | null
-          features: Json | null
-          created_at: string
-          updated_at: string
-        }
-        Insert: {
-          id?: string
-          name: string
-          max_lps?: number | null
-          max_conversions?: number | null
-          price_monthly?: number | null
-          features?: Json | null
-          created_at?: string
-          updated_at?: string
-        }
-        Update: {
-          id?: string
-          name?: string
-          max_lps?: number | null
-          max_conversions?: number | null
-          price_monthly?: number | null
-          features?: Json | null
-          created_at?: string
-          updated_at?: string
-        }
-        Relationships: []
-      }
-      templates: {
-        Row: {
-          id: string
-          name: string
-          description: string | null
-          category: string
-          is_premium: boolean | null
-          preview_url: string | null
-          sections_config: Json | null
-          created_at: string
-        }
-        Insert: {
-          id?: string
-          name: string
-          description?: string | null
-          category: string
-          is_premium?: boolean | null
-          preview_url?: string | null
-          sections_config?: Json | null
-          created_at?: string
-        }
-        Update: {
-          id?: string
-          name?: string
-          description?: string | null
-          category?: string
-          is_premium?: boolean | null
-          preview_url?: string | null
-          sections_config?: Json | null
-          created_at?: string
-        }
-        Relationships: []
-      }
-      user_accounts: {
-        Row: {
-          id: string
-          user_id: string
-          account_id: string
-          role: string
-          permissions: Json | null
-          status: string
-          invited_by: string | null
-          created_at: string
-        }
-        Insert: {
-          id?: string
-          user_id: string
-          account_id: string
-          role: string
-          permissions?: Json | null
-          status?: string
-          invited_by?: string | null
-          created_at?: string
-        }
-        Update: {
-          id?: string
-          user_id?: string
-          account_id?: string
-          role?: string
-          permissions?: Json | null
-          status?: string
-          invited_by?: string | null
-          created_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "user_accounts_account_id_fkey"
-            columns: ["account_id"]
-            isOneToOne: false
-            referencedRelation: "accounts"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "user_accounts_invited_by_fkey"
-            columns: ["invited_by"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "user_accounts_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
-      users: {
-        Row: {
-          id: string
-          name: string
-          email: string
-          created_at: string
-          updated_at: string
-        }
-        Insert: {
-          id: string // UUID deve ser fornecido (vem do Supabase Auth)
-          name: string
-          email: string
-          created_at?: string
-          updated_at?: string
-        }
-        Update: {
-          id?: string
-          name?: string
-          email?: string
-          created_at?: string
-          updated_at?: string
-        }
-        Relationships: []
+      if (!sectionData.textColor && brandingConfig.colors.secondary) {
+        sectionData.textColor = brandingConfig.colors.secondary
       }
     }
-    Views: {
-      v_active_accounts: {
-        Row: {
-          id: string
-          name: string
-          email: string
-          domain: string | null
-          subdomain: string | null
-          plan_id: string | null
-          owner_user_id: string | null
-          data_region: string | null
-          branding_config: Json | null
-          settings: Json | null
-          status: string | null
-          trial_ends_at: string | null
-          last_active_at: string | null
-          monthly_leads_count: number | null
-          monthly_pageviews_count: number | null
-          storage_used_mb: number | null
-          last_quota_reset: string | null
-          created_at: string
-          updated_at: string
-          plan_name: string | null
-          owner_name: string | null
-          owner_email: string | null
-          total_lps: number | null
-          published_lps: number | null
-          total_leads: number | null
-          leads_last_30_days: number | null
-        }
-        Relationships: []
-      }
-      v_leads_dashboard: {
-        Row: {
-          account_id: string
-          lp_title: string
-          lp_slug: string
-          total_leads: number | null
-          new_leads: number | null
-          contacted_leads: number | null
-          qualified_leads: number | null
-          converted_leads: number | null
-          lead_date: string | null
-        }
-        Relationships: []
+  }
+
+  // Aplicar logo da conta no header se disponível
+  if (section.section_type === 'header' && accountData.branding_config) {
+    const brandingConfig = accountData.branding_config as any
+    if (brandingConfig.logo?.url) {
+      sectionData.logo = {
+        ...sectionData.logo,
+        type: 'image',
+        src: brandingConfig.logo.url,
+        alt: brandingConfig.logo.alt || accountData.name,
       }
     }
-    Functions: {
-      set_lp_as_homepage: {
-        Args: {
-          p_account_id: string
-          p_lp_id: string
-        }
-        Returns: undefined
-      }
-    }
-    Enums: {}
-    CompositeTypes: {}
+  }
+
+  // Criar props com tipo any para evitar conflitos
+  const props = { data: sectionData } as any
+
+  // Renderizar componente baseado no tipo
+  switch (section.section_type) {
+    case 'header':
+      return <Header {...props} />
+    case 'hero':
+      return <Hero {...props} />
+    case 'about':
+      return <About {...props} />
+    case 'services':
+      return <Services {...props} />
+    case 'benefits':
+      return <Benefits {...props} />
+    case 'technology':
+      return <Technology {...props} />
+    case 'steps':
+      return <Steps {...props} />
+    case 'testimonials':
+      return <Testimonials {...props} />
+    case 'faq':
+      return <FAQ {...props} />
+    case 'gallery':
+      return <Gallery {...props} />
+    case 'pricing':
+      return <Pricing {...props} />
+    case 'contact':
+      return <Contact {...props} />
+    case 'ctaFinal':
+      return <CTAFinal {...props} />
+    case 'footer':
+      return <Footer {...props} />
+    default:
+      console.warn(`Tipo de seção não reconhecido: ${section.section_type}`)
+      return null
   }
 }
-
-// Tipos auxiliares para facilitar o uso
-export type Tables<T extends keyof Database['public']['Tables']> = Database['public']['Tables'][T]['Row']
-export type TablesInsert<T extends keyof Database['public']['Tables']> = Database['public']['Tables'][T]['Insert']
-export type TablesUpdate<T extends keyof Database['public']['Tables']> = Database['public']['Tables'][T]['Update']
-export type Views<T extends keyof Database['public']['Views']> = Database['public']['Views'][T]['Row']
-
-// Tipos específicos mais usados
-export type User = Tables<'users'>
-export type Account = Tables<'accounts'>
-export type Plan = Tables<'plans'>
-export type UserAccount = Tables<'user_accounts'>
-export type LP = Tables<'lps'>
-export type LPSection = Tables<'lp_sections'>
-export type Lead = Tables<'leads'>
-export type Template = Tables<'templates'>
-
-// Tipos para as views
-export type ActiveAccountView = Views<'v_active_accounts'>
-export type LeadsDashboardView = Views<'v_leads_dashboard'>
-
-// Tipos para relacionamentos complexos
-export type LPWithSections = LP & {
-  sections: LPSection[]
-}
-
-export type LPWithAccount = LP & {
-  account: Account
-}
-
-export type LPWithDetails = LP & {
-  account: Account
-  sections: LPSection[]
-  template?: Template
-}
-
-export type AccountWithPlan = Account & {
-  plan: Plan | null
-}
-
-export type UserWithAccounts = User & {
-  user_accounts: (UserAccount & {
-    account: Account
-  })[]
-}
-
-// Enums para valores específicos
-export type UserRole = 'super_admin' | 'account_admin' | 'editor' | 'viewer'
-export type AccountStatus = 'active' | 'suspended' | 'canceled' | 'trial'
-export type LPStatus = 'draft' | 'published' | 'archived'
-export type LPObjective = 'tofu' | 'mofu' | 'bofu' | 'generica'
-export type LeadStatus = 'new' | 'contacted' | 'qualified' | 'converted'
