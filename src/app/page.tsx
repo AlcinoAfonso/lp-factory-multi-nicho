@@ -1,14 +1,10 @@
 import { DatabaseService } from '@/services/database.service'
 import Link from 'next/link'
-import type { Database } from '@/types/database'
-
-type LPWithAccount = Database['public']['Tables']['lps']['Row'] & {
-  account: Database['public']['Tables']['accounts']['Row']
-}
+import type { LPWithAccount } from '@/types/database'
 
 export default async function HomePage() {
-  // Buscar todas as LPs ativas
-  const lps = await getAllActiveLPs()
+  // Usar o método do DatabaseService
+  const lps = await DatabaseService.getActiveLPs()
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -86,24 +82,4 @@ export default async function HomePage() {
       </main>
     </div>
   )
-}
-
-// Função para buscar LPs ativas
-async function getAllActiveLPs(): Promise<LPWithAccount[]> {
-  try {
-    const { data, error } = await DatabaseService.supabase
-      .from('lps')
-      .select(`
-        *,
-        account:accounts(*)
-      `)
-      .eq('active', true)
-      .order('created_at', { ascending: false })
-
-    if (error) throw error
-    return data || []
-  } catch (error) {
-    console.error('Erro ao buscar LPs:', error)
-    return []
-  }
 }
