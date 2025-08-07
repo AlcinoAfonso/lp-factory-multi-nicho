@@ -1,88 +1,39 @@
-# LP Factory - Contexto e Recursos
+# LP Factory - Sistema de Acesso v2
 
-> **⚠️ IMPORTANTE:** Este README é exclusivamente para fornecer contexto ao Claude. NÃO documenta código ou features do projeto.
+> **⚠️ REPOSITÓRIO EM TRANSIÇÃO:** Este projeto está sendo restructurado para implementar o Sistema de Acesso v2. Funcionalidades de Landing Pages serão implementadas na Fase 2.
 
-## Stack Tecnológico Atual
+## Status Atual
 
-### **Desenvolvimento**
-- **GitHub Web Interface** (sem Codespace/ambiente local)
-- **Claude Pro** para geração de código
-- **Vercel Free** para deploy automático
-- **Google Workspace Business Standard**
+**✅ Concluído:**
+- Estrutura de banco de dados (Sistema de Acesso v2)
+- RLS e políticas de segurança
+- Auditoria automática (audit_logs)
+- Super-admin configurado
 
-### **Limitações Conhecidas**
-- ❌ Sem ambiente de desenvolvimento local
-- ❌ Sem acesso a ferramentas pagas extras (além das listadas)
-- ❌ Deploy limitado ao Vercel Free
-- ✅ Foco em soluções web-based e integrações nativas
+**🔄 Em Desenvolvimento:**
+- Dashboards React definitivos (Admin, Account, Partner)
+- Middleware de controle de acesso
+- Testes práticos do Sistema de Acesso
 
-## Claude Resources Disponíveis
+**📋 Próxima Fase:**
+- Sistema de Landing Pages
+- Captação de leads
+- Analytics e tracking
 
-### **1. Integrações Ativas**
-- **Zapier**: Automações entre GitHub, Vercel, Google Ads, Meta Ads, Google Sheets
-- **Cloudflare**: Performance, CDN, proteção, análises
-- **Linear e Asana**: Gestão de projetos e tarefas
-- **Google Workspace**: Acesso a documentos, planilhas, relatórios
-- **Stripe** (em breve): Automação de pagamentos
+## Tecnologias
 
-### **2. Advanced Research**
-- **Pesquisa automatizada**: 5-45 minutos de análise profunda
-- **Análise de nichos**: Concorrentes, tendências, oportunidades
-- **Insights de marketing**: Otimização de campanhas e conversões
-- **Pesquisa de palavras-chave**: Baseada em dados recentes
+- **Frontend:** Next.js 14 + TypeScript + Tailwind CSS
+- **Backend:** Supabase (banco + auth + RLS)
+- **UI:** shadcn/ui + Lucide React
+- **Deploy:** Vercel + GitHub
 
-### **3. CRMs Integráveis Recomendados**
-- **HubSpot**: Integração via Zapier, funil completo
-- **Pipedrive**: Foco em vendas
-- **Intercom**: CRM + chat
-- **Linear**: Projetos + clientes
+## Estrutura do Sistema de Acesso v2
 
-## Fluxos de Automação Possíveis
-
-### **Fábrica de LPs**
-```
-GitHub (código) → Vercel (deploy) → Cloudflare (performance) → Linear (gestão)
-```
-
-### **Agência Digital**
-```
-HubSpot (CRM) → Zapier (automação) → Google Workspace (colaboração)
-```
-
-### **Pesquisa e Otimização**
-```
-Claude Research → Análise de mercado → Insights para LPs → Automação de campanhas
-```
-
-## Instruções para Claude
-
-### **✅ O que PODE sugerir:**
-- Soluções compatíveis com stack atual
-- Automações via Zapier/integrações nativas
-- Ferramentas web-based gratuitas ou que já possuo
-- Otimizações que funcionem no Vercel Free
-- Integrações com Google Workspace
-
-### **❌ O que NÃO deve sugerir:**
-- Ferramentas que requerem setup local
-- Serviços pagos não listados acima
-- Soluções que precisem de Codespace
-- Configurações que ultrapassem limites do Vercel Free
-
-### **🎯 Prioridades:**
-1. **Automação máxima** com recursos disponíveis
-2. **Escalabilidade** sem custos adicionais
-3. **Integração** entre ferramentas existentes
-4. **Performance** usando Cloudflare
-5. **Pesquisa** via Claude Research antes de decisões
-
-## Atualizações Permitidas
-
-> **REGRA:** Apenas atualize esta seção quando novos recursos/integrações do Claude estiverem disponíveis ou quando houver mudanças no stack tecnológico.
-
-**Última atualização:** [Data da criação]
-**Próxima revisão:** Quando novos recursos Claude forem lançados
+- **Multi-tenant:** Isolamento completo entre contas
+- **RLS nativo:** Segurança a nível de banco de dados
+- **Supabase Auth:** Sistema de autenticação integrado
+- **Auditoria:** Logs automáticos de todas as operações
 
 ---
 
-*Este documento serve como contexto para otimizar a colaboração entre humano e IA. Não documenta funcionalidades do código.*
+**Documentação técnica:** Consultar Bússola Estrutural v4 e Roteiro de Implementação.
