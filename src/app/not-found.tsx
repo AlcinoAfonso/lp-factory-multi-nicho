@@ -9,7 +9,7 @@ export default function NotFound() {
           Página não encontrada
         </h2>
         <p className="text-gray-600 mb-8">
-          A landing page que você está procurando não existe ou foi desativada.
+          A página que você está procurando não existe ou foi movida.
         </p>
         <Link
           href="/"
