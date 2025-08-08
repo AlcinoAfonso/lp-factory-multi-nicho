@@ -12,13 +12,6 @@ const config: Config = {
       fontFamily: {
         inter: ['var(--font-inter)', 'Inter', 'sans-serif'],
       },
-      colors: {
-        brand: {
-          light: '#8B5CF6',
-          DEFAULT: '#7C3AED',
-          dark: '#6D28D9',
-        },
-      },
     },
   },
   plugins: [],
